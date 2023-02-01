@@ -2,29 +2,28 @@ class ArrayVal {
   private boolean isTotalMax = false;
   private ArrayList<int[]> total = new ArrayList<int[]>();
   private ArrayList<int[]> nextExp = new ArrayList<int[]>();
-  private IntList increaseVal = new IntList();
+  IntList increaseVal = new IntList();
   private float magnification = random(1, 1.5);
   private String siPrefix = "";
   private final String[] Prefix = {"", "k", "M", "G", "T", "P",
                                     "E", "Z", "Y", "R", "Q"};
 
   public ArrayVal() {
+    increaseVal.append(0);
     addIncreaseVal(1);
     addTotalVal(10, 0);
   }
 
   public ArrayVal(int increaseVal, int initVal, int nextExp) {
+    this.increaseVal.append(0);
     addIncreaseVal(increaseVal);
     addTotalVal(initVal, 0);
   }
 
   void addIncreaseVal(int increaseVal) {
-    int n = 0, tmp = increaseVal;
-    try {
-      n = this.increaseVal.size();
-    } catch (Exception e) {
-      n = 1;
-    }
+    int n = this.increaseVal.size();
+    int tmp = increaseVal;
+    println(n);
     for (int i = 0; i < n; i++) {
       int d = 0;
       try {
@@ -33,7 +32,8 @@ class ArrayVal {
         this.increaseVal.append(0);
         d = this.increaseVal.get(i);
       }
-      d += tmp;
+      println(this.increaseVal.get(i));
+      d = d + tmp * 100;
       tmp = d / 1000;
       this.increaseVal.set(i, d % 1000);
       if (tmp != 0 && i == n - 1) { n++; }
@@ -41,7 +41,7 @@ class ArrayVal {
   }
 
   void addTotalVal() {
-    addTotalVal(10, 0);
+    addTotalVal(99999999, 0);
   }
 
   private void addTotalVal(int increaseVal, int index) {
@@ -63,10 +63,11 @@ class ArrayVal {
     }
 
     int tmp = d[3];
-    if (tmp != 0) {
+    if (tmp != 0 || index < this.increaseVal.size()) {
       d[3] = 0;
       if (index == Prefix.length - 1) {
         maxVal();
+        return;
       }
       addTotalVal(tmp, index + 1);
     }
@@ -155,4 +156,5 @@ void draw() {
   vals.addTotalVal();
   vals.valConvertSi();
   text(vals.getStr(), width/2, height/2);
+  text(vals.increaseVal.size(), width/2, height / 3);
 }
