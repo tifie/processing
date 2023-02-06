@@ -21,6 +21,7 @@ class ArrayVal {
   }
 
   void addIncreaseVal(int increaseVal) {
+    if (isTotalMax) { return; }
     int n = this.increaseVal.size();
     int tmp = increaseVal;
     println(n);
@@ -106,6 +107,10 @@ class ArrayVal {
       if (i < 3) {
         changeStr(i, n);
         break;
+      }
+
+      if (i == 3) {
+        total.remove(n);
       }
     }
   }
